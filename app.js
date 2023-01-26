@@ -47,10 +47,13 @@ function updateDisplay() {
 
 numbers.forEach((num) => {
   num.addEventListener("click", function () {
+    //disables....123
     if (num.textContent === "." && calculator.displayValue.includes("."))
       return;
+    //disables -0000000
     if (num.textContent === "0" && calculator.displayValue.split("")[0] === "-")
       return;
+    //disables 000000
     if (calculator.displayValue === "" && num.textContent === "0") return;
     calculator.displayValue += num.textContent;
     updateDisplay();
@@ -59,12 +62,13 @@ numbers.forEach((num) => {
 
 operators.forEach((operation) => {
   operation.addEventListener("click", function () {
-    console.log(calculator);
+    //initializes a negative number
     if (calculator.displayValue === "" && operation.textContent === "-") {
       calculator.displayValue += operation.textContent;
       updateDisplay();
       return;
     }
+    //disables --5
     if (operation.textContent === "-" && calculator.displayValue === "-")
       return;
 
