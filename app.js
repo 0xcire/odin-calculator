@@ -49,6 +49,9 @@ numbers.forEach((num) => {
   num.addEventListener("click", function () {
     if (num.textContent === "." && calculator.displayValue.includes("."))
       return;
+    if (num.textContent === "0" && calculator.displayValue.split("")[0] === "-")
+      return;
+    if (calculator.displayValue === "" && num.textContent === "0") return;
     calculator.displayValue += num.textContent;
     updateDisplay();
   });
@@ -56,6 +59,15 @@ numbers.forEach((num) => {
 
 operators.forEach((operation) => {
   operation.addEventListener("click", function () {
+    console.log(calculator);
+    if (calculator.displayValue === "" && operation.textContent === "-") {
+      calculator.displayValue += operation.textContent;
+      updateDisplay();
+      return;
+    }
+    if (operation.textContent === "-" && calculator.displayValue === "-")
+      return;
+
     if (calculator.displayValue === "") return;
     calculator.operation = operation.textContent;
     calculator.storedValue = calculator.displayValue;
@@ -67,12 +79,12 @@ operators.forEach((operation) => {
 function compute() {
   const previous = parseFloat(calculator.storedValue);
   const current = parseFloat(calculator.displayValue);
-  if (isNaN(previous) || isNaN(current)) return;
+  if (Number.isNaN(previous) || Number.isNaN(current)) return;
   switch (calculator.operation) {
     case "+":
       calculator.computed = previous + current;
       break;
-    case "−":
+    case "-":
       calculator.computed = previous - current;
       break;
     case "×":
@@ -89,7 +101,7 @@ function compute() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("loading...");
+  console.log("🤖");
 });
 
 clear.addEventListener("click", clearDisplay);
